@@ -1,0 +1,54 @@
+﻿@page
+@model RiverMonitoring.Pages.History.IndexModel
+@{
+    ViewData["Title"] = "History";
+}
+
+<div class="text-center m-4">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div class="card transparent-card">
+    <div class="card-body">
+        <form method="get">
+            <div class="form-group">
+                <label for="SelectedStationId">Filter by Station</label>
+                <select asp-for="SelectedStationId" class="form-control" asp-items="@(new SelectList(Model.HistoryData.Stations, "Id", "Title", Model.SelectedStationId))">
+                    <option value="">All Stations</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+
+        @if (Model.HistoryData.Measurements != null && Model.HistoryData.Measurements.Any())
+        {
+            <table class="table mt-4">
+                <thead>
+                    <tr>
+                        <th>Station</th>
+                        <th>Timestamp</th>
+                        <th>Measured Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var measurement in Model.HistoryData.Measurements)
+                    {
+                        <tr class="@(measurement.IsWarning ? "table-danger" : "")">
+                            <td>@measurement.StationTitle</td>
+                            <td>@measurement.Timestamp</td>
+                            <td>@measurement.MeasuredValue</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No measurements found.</p>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

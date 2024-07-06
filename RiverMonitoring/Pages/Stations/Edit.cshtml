@@ -1,0 +1,62 @@
+﻿@page
+@model RiverMonitoring.Pages.Stations.EditModel
+@{
+    ViewData["Title"] = "Edit Station";
+}
+
+<div class="text-center m-4">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div class="d-flex justify-content-center" style="margin-top: 30px;">
+    <div class="col-4 card transparent-card">
+        @if (!string.IsNullOrEmpty(Model.StatusMessage))
+        {
+            <div class="alert alert-success m-2" role="alert">
+                @Model.StatusMessage
+            </div>
+        }
+
+        <form method="post">
+            <input type="hidden" asp-for="Station.Id" />
+            <div class="form-group m-2">
+                <label asp-for="Station.Title"></label>
+                <input asp-for="Station.Title" class="form-control" />
+                <span asp-validation-for="Station.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Station.Location"></label>
+                <input asp-for="Station.Location" class="form-control" />
+                <span asp-validation-for="Station.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Station.Timeout"></label>
+                <input asp-for="Station.Timeout" class="form-control" />
+                <span asp-validation-for="Station.Timeout" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Station.AlertEmail"></label>
+                <input asp-for="Station.AlertEmail" class="form-control" />
+                <span asp-validation-for="Station.AlertEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Station.FloodWarningValue"></label>
+                <input asp-for="Station.FloodWarningValue" class="form-control" />
+                <span asp-validation-for="Station.FloodWarningValue" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Station.DroughtWarningValue"></label>
+                <input asp-for="Station.DroughtWarningValue" class="form-control" />
+                <span asp-validation-for="Station.DroughtWarningValue" class="text-danger"></span>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success m-2">Save</button>
+                <a asp-page="Index" class="btn btn-secondary m-2">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

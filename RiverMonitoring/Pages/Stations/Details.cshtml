@@ -1,0 +1,56 @@
+﻿@page "{id:int}"
+@model RiverMonitoring.Pages.Stations.DetailsModel
+@{
+    ViewData["Title"] = "Station Details";
+}
+
+<h1 class="text-center m-4">@ViewData["Title"]</h1>
+
+@if (Model.Station == null)
+{
+    <div class="alert alert-danger">Station not found.</div>
+}
+else
+{
+    <div class="d-flex justify-content-center" style="margin-top: 30px;">
+        <div class="col-6 card transparent-card">
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>Title</th>
+                        <td>@Model.Station.Title</td>
+                    </tr>
+                    <tr>
+                        <th>Location</th>
+                        <td>@Model.Station.Location</td>
+                    </tr>
+                    <tr>
+                        <th>Timeout</th>
+                        <td>@Model.Station.Timeout</td>
+                    </tr>
+                    <tr>
+                        <th>Alert Email</th>
+                        <td>@Model.Station.AlertEmail</td>
+                    </tr>
+                    <tr>
+                        <th>Flood Warning Value</th>
+                        <td>@Model.Station.FloodWarningValue</td>
+                    </tr>
+                    <tr>
+                        <th>Drought Warning Value</th>
+                        <td>@Model.Station.DroughtWarningValue</td>
+                    </tr>
+                    <tr>
+                        <th>Created On</th>
+                        <td>@Model.Station.CreatedOn</td>
+                    </tr>
+                    <tr>
+                        <th>Created By User</th>
+                        <td>@Model.Station.CreatedByUser</td>
+                    </tr>
+                </table>
+                <a asp-page="Index" class="btn btn-outline-secondary m-2">Back to List</a>
+            </div>
+        </div>
+    </div>
+}

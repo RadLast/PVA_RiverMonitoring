@@ -1,0 +1,44 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.transparent-card {
+    background-color: rgba(255, 255, 255, 0.8); /* Bílá barva s 80% pr?hledností */
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lehký stín */
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+    .transparent-card .card-header {
+        background-color: rgba(0, 0, 0, 0.1); /* ?erná barva s 10% pr?hledností */
+        border-bottom: none;
+    }
+
+    .transparent-card .card-body {
+        padding: 10px;
+    }

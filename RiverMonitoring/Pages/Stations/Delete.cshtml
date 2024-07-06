@@ -1,0 +1,70 @@
+﻿@page
+@model RiverMonitoring.Pages.Stations.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Station</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Station.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Station.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Station.Location)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Station.Location)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Station.Timeout)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Station.Timeout)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Station.AlertEmail)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Station.AlertEmail)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Station.FloodWarningValue)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Station.FloodWarningValue)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Station.DroughtWarningValue)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Station.DroughtWarningValue)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Station.CreatedOn)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Station.CreatedOn)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Station.CreatedByUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Station.CreatedByUser)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Station.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>
