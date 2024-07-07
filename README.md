@@ -15,10 +15,6 @@ This project aims to provide a user-friendly interface for monitoring river cond
 - **Historical data analysis**: Analyze past data to identify trends and patterns.
 - **API key authentication**: Secure API endpoints with token-based authentication.
 
-## Screenshots
-
-![Home Page](path/to/homepage_screenshot.png)
-
 ## System Requirements
 
 - **.NET 6 SDK**: The .NET 6 Software Development Kit is required to build and run the application. You can download it from the [official .NET website](https://dotnet.microsoft.com/download/dotnet/6.0).
@@ -74,7 +70,7 @@ Contributions are welcome! Please fork the repository and create a pull request 
 
 ## Authors
 
-- [Your Name](https://github.com/RadLast)
+- [Radka Laštovičková](https://github.com/RadLast)
 
 ## License
 
