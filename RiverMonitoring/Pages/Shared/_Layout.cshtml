@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RiverMonitoring.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2D5o6XgGJpHTaU6sVgkSoqoh9bMYH0jG6lh5yf4okNTnNghD1+QtmN8ULw7A3R1uvzl+3WQw==" crossorigin="" />
+
 </head>
 <body>
     <header>
@@ -34,6 +36,12 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-page="/History/Index">History</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/About">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Privacy">Privacy</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -48,13 +56,15 @@
 
     <footer class="border-top footer text-muted bg-dark">
         <div class="container">
-            &copy; 2024 - RiverMonitoring - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2024 - RiverMonitoring
         </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-pqk1U1r6ztCl4ZLsRaY6L3v60ZTCJtv2ZljE8Z/VVcfepw5/UH10W8cy6+/4cltDMoyQHRHDJ9L4tH94h5UnjQ==" crossorigin=""></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

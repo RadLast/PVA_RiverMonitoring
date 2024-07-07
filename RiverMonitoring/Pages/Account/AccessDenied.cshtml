@@ -4,5 +4,18 @@
     ViewData["Title"] = "Access denied";
 }
 
-<h1>Access denied</h1>
-<p>You do not have access to this resource.</p>
+<div class="text-center m-4">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div class="d-flex justify-content-center" style="margin-top: 30px;">
+    <div class="col-4 card transparent-card">
+        <div class="card-body">
+            <p class="card-text">You do not have access to this resource.</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RiverMonitoring.Data;
 using RiverMonitoring.Data.Models;
+using RiverMonitoring.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RiverMonitoring.Pages.Api
+namespace RiverMonitoring.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -17,8 +18,13 @@ namespace RiverMonitoring.Pages.Api
             _context = context;
         }
 
+        /// <summary>
+        /// Receives a list of values and saves them to the database.
+        /// </summary>
+        /// <param name="values">List of value view models.</param>
+        /// <returns>Action result indicating success or failure.</returns>
         [HttpPost]
-        public async Task<IActionResult> PostValues([FromBody] List<ValueDto> values)
+        public async Task<IActionResult> PostValues([FromBody] List<ValueViewModel> values)
         {
             if (!ModelState.IsValid)
             {
@@ -32,7 +38,7 @@ namespace RiverMonitoring.Pages.Api
                 var station = await _context.Stations.FindAsync(valueDto.StationId);
                 if (station == null)
                 {
-                    return BadRequest($"Stanice s ID {valueDto.StationId} nebyla nalezena.");
+                    return BadRequest($"Station with ID {valueDto.StationId} was not found.");
                 }
 
                 var value = new Value
@@ -48,14 +54,7 @@ namespace RiverMonitoring.Pages.Api
             _context.Values.AddRange(newValues);
             await _context.SaveChangesAsync();
 
-            return Ok(new { message = "Hodnoty byly úspěšně uloženy." });
+            return Ok(new { message = "Values have been successfully saved." });
         }
-    }
-
-    public class ValueDto
-    {
-        public int StationId { get; set; }
-        public double MeasuredValue { get; set; }
-        public DateTime Timestamp { get; set; }
     }
 }

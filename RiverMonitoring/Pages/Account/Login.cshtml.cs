@@ -2,13 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RiverMonitoring.Data.Models;
-using System.ComponentModel.DataAnnotations;
+using RiverMonitoring.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RiverMonitoring.Pages.Account
 {
+    /// <summary>
+    /// Page model for user login.
+    /// </summary>
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -23,28 +27,20 @@ namespace RiverMonitoring.Pages.Account
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputLoginViewModel Input { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
 
-        public class InputModel
-        {
-            [Required]
-            [Display(Name = "User Name")]
-            public string UserName { get; set; }
-
-            [Required]
-            [DataType(DataType.Password)]
-            public string Password { get; set; }
-        }
-
         public void OnGet()
         {
-            // Clear the status message
             StatusMessage = string.Empty;
         }
 
+        /// <summary>
+        /// Handles the user login process.
+        /// </summary>
+        /// <returns>Redirects to the index page on successful login.</returns>
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
@@ -55,14 +51,12 @@ namespace RiverMonitoring.Pages.Account
                     var result = await _signInManager.PasswordSignInAsync(user, Input.Password, isPersistent: false, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
-                        // Přidáme roli uživatele, pokud ještě nemá žádnou
                         var roles = await _userManager.GetRolesAsync(user);
                         if (!roles.Any())
                         {
                             await _userManager.AddToRoleAsync(user, user.AccessLevel);
                         }
 
-                        // Aktualizujeme claimy uživatele
                         var userClaims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name, user.UserName)

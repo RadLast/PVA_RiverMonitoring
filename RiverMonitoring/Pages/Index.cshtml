@@ -1,9 +1,54 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center m-4">
-    <h1 class="display-1">Welcome</h1>
+    <h1 class="display-1">Welcome to RiverMonitoring</h1>
+    <p class="lead">Your comprehensive platform for real-time river monitoring and alerts.</p>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-4">
+            <div class="card transparent-card mb-4">
+                <div class="card-body text-center">
+                    <h4 class="display-6">About RiverMonitoring</h4>
+                    <p>RiverMonitoring is designed to provide real-time monitoring and alerts for river conditions, helping communities stay informed and prepared for potential flood or drought conditions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card transparent-card mb-4">
+                <div class="card-body text-center">
+                    <h4 class="display-6">Features</h4>
+                    <ul class="list-unstyled">
+                        <li>Real-time river condition monitoring</li>
+                        <li>Customizable alerts for flood and drought conditions</li>
+                        <li>User-friendly interface</li>
+                        <li>Comprehensive historical data analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card transparent-card mb-4">
+                <div class="card-body text-center">
+                    <h4 class="display-6">Get Started</h4>
+                    <p>If you are new to RiverMonitoring, you can <a asp-page="/Account/Register">register</a> for an account. If you already have an account, please <a asp-page="/Account/Login">login</a> to access your dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card transparent-card mb-4">
+                <div class="card-body text-center">
+                    <p class="display-6">Contact Us</p>
+                    <p>If you have any questions or need further information, please contact us at <a href="mailto:radka.lastovickova@post.cz">radka.lastovickova@post.cz</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

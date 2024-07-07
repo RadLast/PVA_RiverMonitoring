@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RiverMonitoring.Data;
 using RiverMonitoring.Data.Models;
@@ -7,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace RiverMonitoring.Pages.Users
 {
+    [Authorize(Roles = "Admin")]
+    /// <summary>
+    /// Page model for editing a user.
+    /// </summary>
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -20,6 +25,11 @@ namespace RiverMonitoring.Pages.Users
         public ApplicationUser EditUser { get; set; }
         public string StatusMessage { get; set; }
 
+        /// <summary>
+        /// Handles the GET request for the edit user page.
+        /// </summary>
+        /// <param name="id">The ID of the user to edit.</param>
+        /// <returns>The page result.</returns>
         public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
@@ -36,6 +46,10 @@ namespace RiverMonitoring.Pages.Users
             return Page();
         }
 
+        /// <summary>
+        /// Handles the POST request for updating a user.
+        /// </summary>
+        /// <returns>Redirects to the index page on success or returns the page with an error message on failure.</returns>
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

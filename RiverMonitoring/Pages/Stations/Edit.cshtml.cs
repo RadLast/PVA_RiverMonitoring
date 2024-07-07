@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,10 @@ using RiverMonitoring.Data.Models;
 
 namespace RiverMonitoring.Pages.Stations
 {
+    [Authorize(Roles = "Admin,Write")]
+    /// <summary>
+    /// Page model for editing a station.
+    /// </summary>
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -21,6 +26,11 @@ namespace RiverMonitoring.Pages.Stations
         public Station Station { get; set; }
         public string StatusMessage { get; set; }
 
+        /// <summary>
+        /// Handles the GET request for the edit station page.
+        /// </summary>
+        /// <param name="id">The ID of the station to edit.</param>
+        /// <returns>The page result.</returns>
         public async Task<IActionResult> OnGetAsync(int id)
         {
             Station = await _context.Stations.FindAsync(id);
@@ -33,6 +43,10 @@ namespace RiverMonitoring.Pages.Stations
             return Page();
         }
 
+        /// <summary>
+        /// Handles the POST request for updating a station.
+        /// </summary>
+        /// <returns>Redirects to the index page on success or returns the page with an error message on failure.</returns>
         public async Task<IActionResult> OnPostAsync()
         {
             var stationInDb = await _context.Stations.FindAsync(Station.Id);
@@ -43,7 +57,7 @@ namespace RiverMonitoring.Pages.Stations
                 return RedirectToPage("./Index", new { StatusMessage });
             }
 
-            // Odstraňte CreatedByUser z ModelState, abyste zabránili chybám při validaci
+            // Remove CreatedByUser from ModelState to avoid validation errors
             ModelState.Remove("Station.CreatedByUser");
 
             if (!ModelState.IsValid)
@@ -65,7 +79,9 @@ namespace RiverMonitoring.Pages.Stations
             stationInDb.AlertEmail = Station.AlertEmail;
             stationInDb.FloodWarningValue = Station.FloodWarningValue;
             stationInDb.DroughtWarningValue = Station.DroughtWarningValue;
-            // Neaktualizujte CreatedByUser a CreatedOn, nechte je tak, jak jsou v databázi
+            stationInDb.Latitude = Station.Latitude;
+            stationInDb.Longitude = Station.Longitude;
+            // Do not update CreatedByUser and CreatedOn, keep them as they are in the database
 
             try
             {
@@ -88,6 +104,11 @@ namespace RiverMonitoring.Pages.Stations
             }
         }
 
+        /// <summary>
+        /// Checks if a station with the given ID exists.
+        /// </summary>
+        /// <param name="id">The ID of the station.</param>
+        /// <returns>True if the station exists, false otherwise.</returns>
         private bool StationExists(int id)
         {
             return _context.Stations.Any(e => e.Id == id);

@@ -1,7 +1,8 @@
 ﻿@page
 @model RiverMonitoring.Pages.Stations.EditModel
+
 @{
-    ViewData["Title"] = "Edit Station";
+    ViewData["Title"] = $"Edit {Model.Station.Title}";
 }
 
 <div class="text-center m-4">
@@ -9,49 +10,70 @@
 </div>
 
 <div class="d-flex justify-content-center" style="margin-top: 30px;">
-    <div class="col-4 card transparent-card">
+    <div class="col-8 card transparent-card">
         @if (!string.IsNullOrEmpty(Model.StatusMessage))
         {
             <div class="alert alert-success m-2" role="alert">
                 @Model.StatusMessage
             </div>
         }
-
         <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Station.Id" />
-            <div class="form-group m-2">
-                <label asp-for="Station.Title"></label>
-                <input asp-for="Station.Title" class="form-control" />
-                <span asp-validation-for="Station.Title" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group m-2">
+                        <label asp-for="Station.Title"></label>
+                        <input asp-for="Station.Title" class="form-control" maxlength="30" />
+                        <span asp-validation-for="Station.Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="Station.Location"></label>
+                        <input asp-for="Station.Location" class="form-control" maxlength="30" />
+                        <span asp-validation-for="Station.Location" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="Station.Timeout"></label>
+                        <input asp-for="Station.Timeout" class="form-control" maxlength="4" />
+                        <span asp-validation-for="Station.Timeout" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="Station.AlertEmail"></label>
+                        <input asp-for="Station.AlertEmail" class="form-control" type="email" />
+                        <span asp-validation-for="Station.AlertEmail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group m-2">
+                        <label asp-for="Station.FloodWarningValue"></label>
+                        <input asp-for="Station.FloodWarningValue" class="form-control" type="number" step="0.01" />
+                        <span asp-validation-for="Station.FloodWarningValue" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="Station.DroughtWarningValue"></label>
+                        <input asp-for="Station.DroughtWarningValue" class="form-control" type="number" step="0.01" />
+                        <span asp-validation-for="Station.DroughtWarningValue" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="Station.Latitude"></label>
+                        <input asp-for="Station.Latitude" class="form-control" type="number" step="0.000001" readonly />
+                        <span asp-validation-for="Station.Latitude" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="Station.Longitude"></label>
+                        <input asp-for="Station.Longitude" class="form-control" type="number" step="0.000001" readonly />
+                        <span asp-validation-for="Station.Longitude" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group m-2">
-                <label asp-for="Station.Location"></label>
-                <input asp-for="Station.Location" class="form-control" />
-                <span asp-validation-for="Station.Location" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="map" style="height: 400px;" class="m-2"></div>
+                </div>
             </div>
-            <div class="form-group m-2">
-                <label asp-for="Station.Timeout"></label>
-                <input asp-for="Station.Timeout" class="form-control" />
-                <span asp-validation-for="Station.Timeout" class="text-danger"></span>
-            </div>
-            <div class="form-group m-2">
-                <label asp-for="Station.AlertEmail"></label>
-                <input asp-for="Station.AlertEmail" class="form-control" />
-                <span asp-validation-for="Station.AlertEmail" class="text-danger"></span>
-            </div>
-            <div class="form-group m-2">
-                <label asp-for="Station.FloodWarningValue"></label>
-                <input asp-for="Station.FloodWarningValue" class="form-control" />
-                <span asp-validation-for="Station.FloodWarningValue" class="text-danger"></span>
-            </div>
-            <div class="form-group m-2">
-                <label asp-for="Station.DroughtWarningValue"></label>
-                <input asp-for="Station.DroughtWarningValue" class="form-control" />
-                <span asp-validation-for="Station.DroughtWarningValue" class="text-danger"></span>
-            </div>
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-success m-2">Save</button>
-                <a asp-page="Index" class="btn btn-secondary m-2">Cancel</a>
+                <a asp-page="./Index" class="btn btn-outline-secondary m-2">Cancel</a>
             </div>
         </form>
     </div>
@@ -59,4 +81,33 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        function initMap() {
+            var latitude = @Model.Station.Latitude;
+            var longitude = @Model.Station.Longitude;
+            var stationLocation = [latitude, longitude];
+
+            var map = L.map('map').setView(stationLocation, 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            var marker = L.marker(stationLocation).addTo(map);
+
+            map.on('click', function (e) {
+                var lat = e.latlng.lat.toFixed(6);
+                var lng = e.latlng.lng.toFixed(6);
+                document.querySelector('input[name="Station.Latitude"]').value = lat;
+                document.querySelector('input[name="Station.Longitude"]').value = lng;
+
+                marker.setLatLng([lat, lng]);
+            });
+        }
+
+        window.onload = initMap;
+    </script>
 }

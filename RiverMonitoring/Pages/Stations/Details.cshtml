@@ -41,6 +41,14 @@ else
                         <td>@Model.Station.DroughtWarningValue</td>
                     </tr>
                     <tr>
+                        <th>Latitude</th>
+                        <td>@Model.Station.Latitude</td>
+                    </tr>
+                    <tr>
+                        <th>Longitude</th>
+                        <td>@Model.Station.Longitude</td>
+                    </tr>
+                    <tr>
                         <th>Created On</th>
                         <td>@Model.Station.CreatedOn</td>
                     </tr>
@@ -49,8 +57,32 @@ else
                         <td>@Model.Station.CreatedByUser</td>
                     </tr>
                 </table>
+                <div id="map" style="height: 400px;" class="m-2"></div>
                 <a asp-page="Index" class="btn btn-outline-secondary m-2">Back to List</a>
             </div>
         </div>
     </div>
 }
+
+<!-- Remove the integrity attributes from these links -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script>
+    function initMap() {
+        // Coordinates for the station
+        var latitude = @Model.Station.Latitude;
+        var longitude = @Model.Station.Longitude;
+        var stationLocation = [latitude, longitude];
+
+        var map = L.map('map').setView(stationLocation, 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        L.marker(stationLocation).addTo(map);
+    }
+
+    window.onload = initMap;
+</script>

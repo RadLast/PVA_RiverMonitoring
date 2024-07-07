@@ -10,14 +10,34 @@
 
 <div class="card transparent-card">
     <div class="card-body">
-        <form method="get">
-            <div class="form-group">
-                <label for="SelectedStationId">Filter by Station</label>
-                <select asp-for="SelectedStationId" class="form-control" asp-items="@(new SelectList(Model.HistoryData.Stations, "Id", "Title", Model.SelectedStationId))">
-                    <option value="">All Stations</option>
-                </select>
+        <form method="get" class="needs-validation form-inline d-flex justify-content-center w-100" novalidate>
+            <div class="row w-100">
+                <div class="col-md-3 mb-3">
+                    <label for="stationSelect">Filter by Station</label>
+                    <select asp-for="SelectedStationId" class="form-control w-100" asp-items="@(new SelectList(Model.HistoryData.Stations, "Id", "Title", Model.SelectedStationId))">
+                        <option value="">All Stations</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="startDate">From</label>
+                    <input type="date" asp-for="StartDate" class="form-control w-100" id="startDate" />
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="endDate">To</label>
+                    <input type="date" asp-for="EndDate" class="form-control w-100" id="endDate" />
+                </div>
+                <div class="col-md-2 mb-3 d-flex align-items-end">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" asp-for="OnlyCritical" id="onlyCritical">
+                        <label class="form-check-label" for="onlyCritical">
+                            Only Critical Values
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-1 mb-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-success w-100">Filter</button>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Filter</button>
         </form>
 
         @if (Model.HistoryData.Measurements != null && Model.HistoryData.Measurements.Any())

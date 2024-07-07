@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,10 @@ using RiverMonitoring.Data.Models;
 
 namespace RiverMonitoring.Pages.Stations
 {
+    [Authorize(Roles = "Admin,Write")]
+    /// <summary>
+    /// Page model for deleting a station.
+    /// </summary>
     public class DeleteModel : PageModel
     {
         private readonly RiverMonitoring.Data.ApplicationDbContext _context;
@@ -22,6 +27,11 @@ namespace RiverMonitoring.Pages.Stations
         [BindProperty]
         public Station Station { get; set; } = default!;
 
+        /// <summary>
+        /// Handles the GET request for the delete station page.
+        /// </summary>
+        /// <param name="id">The ID of the station to delete.</param>
+        /// <returns>The page result.</returns>
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -42,6 +52,11 @@ namespace RiverMonitoring.Pages.Stations
             return Page();
         }
 
+        /// <summary>
+        /// Handles the POST request for deleting a station.
+        /// </summary>
+        /// <param name="id">The ID of the station to delete.</param>
+        /// <returns>Redirects to the index page on success.</returns>
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)

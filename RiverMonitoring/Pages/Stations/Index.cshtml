@@ -15,7 +15,7 @@
     </div>
 }
 
-<div class="card transparent-card">
+<div class="card transparent-card m-4">
     <div class="card-body">
         @if (Model.Stations != null && Model.Stations.Any())
         {
@@ -44,10 +44,10 @@
                             <td>@station.DroughtWarningValue</td>
                             @if (User.IsInRole("Admin") || User.IsInRole("Write"))
                             {
-                                <td>
-                                    <a asp-page="Details" asp-route-id="@station.Id" class="btn btn-primary">Details</a>
-                                    <a asp-page="Edit" asp-route-id="@station.Id" class="btn btn-warning">Edit</a>
-                                    <form method="post" asp-page-handler="Delete" asp-route-id="@station.Id" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this station?');">
+                                <td class="d-flex">
+                                    <a asp-page="Details" asp-route-id="@station.Id" class="btn btn-primary m-1">Details</a>
+                                    <a asp-page="Edit" asp-route-id="@station.Id" class="btn btn-warning m-1">Edit</a>
+                                    <form method="post" asp-page-handler="Delete" asp-route-id="@station.Id" class="d-inline m-1" onsubmit="return confirm('Are you sure you want to delete this station?');">
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
                                 </td>
@@ -69,6 +69,35 @@
     </div>
 </div>
 
+<div class="card transparent-card m-4">
+    <div class="card-body">
+        <div id="map" style="height: 600px;"></div>
+    </div>
+</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        function initMap() {
+            var map = L.map('map').setView([40.7128, -74.0060], 5);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+
+            var stations = @Html.Raw(Json.Serialize(Model.Stations));
+
+            stations.forEach(function (station) {
+                if (station.latitude && station.longitude) {
+                    var marker = L.marker([station.latitude, station.longitude]).addTo(map);
+                    marker.bindPopup(station.title);
+                }
+            });
+        }
+
+        window.onload = initMap;
+    </script>
 }
